@@ -4,7 +4,7 @@ ARG TARGET
 
 RUN apk add --no-cache curl
 
-RUN curl -L "https://github.com/redlib-org/redlib/releases/latest/download/redlib-${TARGET}.tar.gz" | \
+RUN curl -L "https://codeload.github.com/redlib-org/redlib/tar.gz/refs/tags/v0.36.0" | \
     tar xz -C /usr/local/bin/
 
 RUN adduser --home /nonexistent --no-create-home --disabled-password redlib
