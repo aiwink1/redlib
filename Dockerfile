@@ -1,15 +1,11 @@
-FROM rust:1.84.1-alpine3.20 AS builder
+FROM alpine:3.19
 
-WORKDIR /app
+ARG TARGET
 
-RUN apk add --no-cache musl-dev
+RUN apk add --no-cache curl
 
-COPY . .
-
-ARG GIT_HASH=dev
-RUN cargo build --release --bin redlib
-
-FROM alpine:3.20
+RUN curl -L "https://github.com/disconn3ct/redlib/pkgs/container/redlib" | \
+    tar xz -C /usr/local/bin/
 
 RUN adduser --home /nonexistent --no-create-home --disabled-password redlib
 USER redlib
@@ -19,7 +15,5 @@ EXPOSE 8080
 
 # Run a healthcheck every minute to make sure redlib is functional
 HEALTHCHECK --interval=1m --timeout=3s CMD wget --spider -q http://localhost:8080/settings || exit 1
-
-COPY --from=builder /app/target/release/redlib /usr/local/bin/
 
 CMD ["redlib"]
