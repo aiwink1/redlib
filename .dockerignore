@@ -1,0 +1,8 @@
+Dockerfile
+CREDITS
+flake.lock
+*.md
+*.sh
+*.nix
+*.yaml
+*.yml
